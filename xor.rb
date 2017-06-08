@@ -13,29 +13,17 @@ require 'neural_network'
 #  1 | 1 |   0
 #
 
-# 
-# The netowrk has shape of
-#
-#  x1 - O
-#    \ / \
-#     X   O -> y
-#    / \ /
-#  x2 - O
-
-INPUTS_COUNT = 3
-HIDDEN_COUNT = 3
-OUTPUT_COUNT = 1
-
 network = NeuralNetwork.new(
-  Layer.new(INPUTS_COUNT, HIDDEN_COUNT),
-  Layer.new(HIDDEN_COUNT, OUTPUT_COUNT)
+  Layer.new(input_count: 3, output_count: 3),
+  Layer.new(input_count: 3, output_count: 1)
 )
 
 examples = [
-  [1, 0, 0].to_vector,
-  [1, 0, 1].to_vector,
-  [1, 1, 0].to_vector,
-  [1, 1, 1].to_vector
+  #bias, A, B
+  [rand, 0, 0].to_vector,
+  [rand, 0, 1].to_vector,
+  [rand, 1, 0].to_vector,
+  [rand, 1, 1].to_vector
 ]
 
 expected_outputs = [
@@ -45,7 +33,7 @@ expected_outputs = [
   [0].to_vector
 ]
 
-5001.times do |epoch|
+3001.times do |epoch|
   if (epoch % 100).zero?
     puts "-- epoch #{epoch} --"
   end

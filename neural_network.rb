@@ -47,7 +47,7 @@ class NeuralNetwork
 end
 
 class Layer
-  def initialize(input_count, output_count)
+  def initialize(input_count:, output_count:)
     @neurons = Array.new(output_count) { Neuron.new(input_count) }
   end
 
