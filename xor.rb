@@ -18,7 +18,7 @@ network = NeuralNetwork.new(
   Layer.new(input_count: 3, output_count: 1)
 )
 
-examples = [
+network_input = [
   #bias, A, B
   [rand, 0, 0].to_vector,
   [rand, 0, 1].to_vector,
@@ -35,9 +35,10 @@ expected_outputs = [
 
 3001.times do |epoch|
   if (epoch % 100).zero?
-    puts "-- epoch #{epoch} --"
+    puts "---- epoch #{epoch} ----"
   end
-  examples.zip(expected_outputs) do |inputs, expected_output|
+
+  network_input.zip(expected_outputs) do |inputs, expected_output|
     actual_output = network.forward(inputs)
     errors = actual_output - expected_output
 
@@ -48,8 +49,6 @@ expected_outputs = [
         errors[0]
       ]
     end
-
     network.back_propagate errors
-    network.update_weights
   end
 end

@@ -40,10 +40,6 @@ class NeuralNetwork
       errors = layer.back_propagate(errors)
     end
   end
-
-  def update_weights
-    @layers.each(&:update_weights)
-  end
 end
 
 class Layer
@@ -57,10 +53,6 @@ class Layer
 
   def back_propagate(errors)
     @neurons.zip(errors).map { |neuron, error| neuron.back_propagate(error) }.sum
-  end
-
-  def update_weights
-    @neurons.each(&:update_weights)
   end
 end
 
@@ -76,6 +68,7 @@ class Neuron
 
   def back_propagate(error)
     @delta = error * Math.sigmoid_derivate(@output)
+    update_weights
     @weights * @delta
   end
 
