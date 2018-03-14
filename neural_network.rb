@@ -1,4 +1,3 @@
-require 'pry'
 require 'matrix'
 
 class Array
@@ -11,17 +10,29 @@ class Array
   end
 end
 
-module Math
-  def self.sigmoid(x)
+class SigmoidActivation
+  def activate(x)
     1.0 / (1.0 + Math.exp(-x))
   end
 
-  def self.sigmoid_derivate(x)
+  def derivate(x)
     x * (1 - x)
   end
 end
 
+class HeavisideActivation
+  def activate(x)
+    x < 0 ? 0 : 1
+  end
+
+  def derivate(x)
+    raise 'Heaviside\'s derivate is zero everywhere :('
+  end
+end
+
 class NeuralNetwork
+  attr_accessor :layers
+
   def initialize(*layers)
     @layers = layers
   end
@@ -43,8 +54,10 @@ class NeuralNetwork
 end
 
 class Layer
-  def initialize(input_count:, output_count:)
-    @neurons = Array.new(output_count) { Neuron.new(input_count) }
+  attr_accessor :neurons
+
+  def initialize(input_count:, output_count:, activation:)
+    @neurons = Array.new(output_count) { Neuron.new(input_count, activation) }
   end
 
   def forward(inputs)
@@ -57,22 +70,21 @@ class Layer
 end
 
 class Neuron
-  def initialize(inputs_count)
+  attr_accessor :weights
+
+  def initialize(inputs_count, activation)
     @weights = Array.new(inputs_count) { rand }.to_vector
+    @activation = activation
   end
 
   def forward(inputs)
     @inputs = inputs
-    @output = Math.sigmoid(inputs.dot(@weights))
+    @output = @activation.activate(inputs.dot(@weights))
   end
 
   def back_propagate(error)
-    @delta = error * Math.sigmoid_derivate(@output)
-    update_weights
-    @weights * @delta
-  end
-
-  def update_weights
+    @delta = error * @activation.derivate(@output)
     @weights -= @inputs * @delta
+    @weights * @delta
   end
 end

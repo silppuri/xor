@@ -14,16 +14,16 @@ require 'neural_network'
 #
 
 network = NeuralNetwork.new(
-  Layer.new(input_count: 3, output_count: 3),
-  Layer.new(input_count: 3, output_count: 1)
+  Layer.new(input_count: 3, output_count: 3, activation: SigmoidActivation.new),
+  Layer.new(input_count: 3, output_count: 1, activation: SigmoidActivation.new)
 )
 
 network_input = [
   #bias, A, B
-  [rand, 0, 0].to_vector,
-  [rand, 0, 1].to_vector,
-  [rand, 1, 0].to_vector,
-  [rand, 1, 1].to_vector
+  [1, 0, 0].to_vector,
+  [1, 0, 1].to_vector,
+  [1, 1, 0].to_vector,
+  [1, 1, 1].to_vector
 ]
 
 expected_outputs = [
@@ -52,3 +52,8 @@ expected_outputs = [
     network.back_propagate errors
   end
 end
+
+puts "1 XOR 0 = #{network.forward([1, 1, 0].to_vector).first.round}"
+puts "0 XOR 1 = #{network.forward([1, 0, 1].to_vector).first.round}"
+puts "0 XOR 0 = #{network.forward([1, 0, 0].to_vector).first.round}"
+puts "1 XOR 1 = #{network.forward([1, 1, 1].to_vector).first.round}"
