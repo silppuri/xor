@@ -22,11 +22,7 @@ require 'neural_network'
 #   |    1 \
 
 perceptron = NeuralNetwork.new(
-  Layer.new(
-    input_count: 3,
-    output_count: 1,
-    activation: HeavisideActivation.new
-  )
+  Layer.new(input_count: 3, output_count: 1, activation: HeavisideActivation)
 )
 
 and_inputs = [
@@ -46,10 +42,9 @@ expected_outputs = [
 
 10.times do |epoch|
   puts "---- epoch #{epoch} ----"
-
   and_inputs.zip(expected_outputs) do |inputs, expected_output|
     actual_output = perceptron.forward(inputs)
-    errors = expected_output - actual_output
+    errors = actual_output - expected_output
 
     puts " %d AND %d = %.2f    error = %+.2f" % [
       inputs[1], inputs[2],
@@ -61,7 +56,7 @@ expected_outputs = [
       new_weights = neuron.weights.each_with_index.map do |_, i|
         0.1 * errors.first * inputs[i]
       end.to_vector
-      neuron.weights += new_weights
+      neuron.weights -= new_weights
     end
   end
 end

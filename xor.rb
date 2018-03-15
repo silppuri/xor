@@ -14,8 +14,8 @@ require 'neural_network'
 #
 
 network = NeuralNetwork.new(
-  Layer.new(input_count: 3, output_count: 3, activation: SigmoidActivation.new),
-  Layer.new(input_count: 3, output_count: 1, activation: SigmoidActivation.new)
+  Layer.new(input_count: 3, output_count: 3, activation: SigmoidActivation),
+  Layer.new(input_count: 3, output_count: 1, activation: SigmoidActivation)
 )
 
 network_input = [

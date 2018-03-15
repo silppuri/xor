@@ -10,22 +10,22 @@ class Array
   end
 end
 
-class SigmoidActivation
-  def activate(x)
+module SigmoidActivation
+  def self.activate(x)
     1.0 / (1.0 + Math.exp(-x))
   end
 
-  def derivate(x)
+  def self.derivate(x)
     x * (1 - x)
   end
 end
 
-class HeavisideActivation
-  def activate(x)
+module HeavisideActivation
+  def self.activate(x)
     x < 0 ? 0 : 1
   end
 
-  def derivate(x)
+  def self.derivate(x)
     raise 'Heaviside\'s derivate is zero everywhere :('
   end
 end
@@ -84,7 +84,17 @@ class Neuron
 
   def back_propagate(error)
     @delta = error * @activation.derivate(@output)
-    @weights -= @inputs * @delta
-    @weights * @delta
+    update_weights
+    pass_error
   end
+
+  private
+
+    def update_weights
+      @weights -= @inputs * @delta
+    end
+
+    def pass_error
+      @weights * @delta
+    end
 end
