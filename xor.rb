@@ -44,7 +44,7 @@ expected_outputs = [
 
     if (epoch % 100).zero?
       puts " %d XOR %d = %.2f    error = %+.2f" % [
-        inputs[0], inputs[1],
+        inputs[1], inputs[2],
         actual_output[0],
         errors[0]
       ]
@@ -53,7 +53,11 @@ expected_outputs = [
   end
 end
 
-puts "1 XOR 0 = #{network.forward([1, 1, 0].to_vector).first.round}"
-puts "0 XOR 1 = #{network.forward([1, 0, 1].to_vector).first.round}"
+puts "\n"
+puts "*"*30
+puts "TEST"
+puts "*"*30
 puts "0 XOR 0 = #{network.forward([1, 0, 0].to_vector).first.round}"
+puts "0 XOR 1 = #{network.forward([1, 0, 1].to_vector).first.round}"
+puts "1 XOR 0 = #{network.forward([1, 1, 0].to_vector).first.round}"
 puts "1 XOR 1 = #{network.forward([1, 1, 1].to_vector).first.round}"
