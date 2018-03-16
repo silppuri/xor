@@ -53,10 +53,15 @@ end
         puts "expected char   #{map_index_to_char(expected.rindex(expected.max))}"
         puts "actual char     #{map_index_to_char(predictions.rindex(predictions.max))}"
     end
+
     network.back_propagate errors
   end
 end
 
+puts "\n"
+puts "*"*30
+puts "D-like prediction"
+puts "*"*30
 puts softmax(network.forward(
   [
     [0,1,1,1,0],
