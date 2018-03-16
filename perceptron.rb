@@ -1,4 +1,3 @@
-require 'pry'
 require 'neural_network'
 
 # Implementation of AND gate with

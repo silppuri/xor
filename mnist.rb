@@ -1,4 +1,3 @@
-require 'pry'
 require 'chars'
 require 'neural_network'
 
@@ -30,7 +29,7 @@ end
 
 def softmax(mat)
   mat.map!{|el| Math::exp(el) }
-  sum = mat.inject(0){|sum,el| sum = sum + el}
+  sum = mat.inject(&:+)
   mat.map{|el| el / sum.to_f}
 end
 
